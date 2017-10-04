@@ -74,6 +74,24 @@ public class Heap<E> {
         A.set(j, tmp);
     }
 
+    public int indexFind(int val, int size){
+        int index = -999;
+        for(int i = 0; i < size; i++){
+            //System.out.println("index " + i);
+            //System.out.println(data.get(i));
+            if(data.get(i).equals(val)){
+                index = i;
+            }
+        }
+        System.out.println("RETURN:  " + index);
+        return index;
+    }
+
+    public int toInt(E val){
+        String whyDoIHaveToDoTHis = val.toString();
+        return Integer.parseInt(whyDoIHaveToDoTHis);
+    }
+
     /**
      * TODO (pre-lecture assignment)
      * The max_heapify method rearranges the subtree rooted at index i
@@ -85,7 +103,37 @@ public class Heap<E> {
      *               but not always, so use length instead of data.size()).
      */
     void max_heapify(int i, int length) {
-        throw new UnsupportedOperationException();
+
+            if(i < length && length != 0) {
+
+                if (right(i) < length && left(i) < length) {//if both children in bounds
+                    if (less.test(data.get(i), data.get(right(i))) || less.test(data.get(i), data.get(left(i)))) {//if i is less than a child
+                        if (less.test(data.get(left(i)), data.get(right(i)))) {//if right is biggest
+                            //swap
+                            swap(data, i, right(i));
+                            max_heapify(right(i), length);
+                        } else {//else left must be bigger
+                            //swap
+                            swap(data, i, left(i));
+                            max_heapify(left(i), length);
+                        }
+                    }
+                } else if (right(i) < length) {//if right child
+
+                    if(less.test(data.get(i), data.get(right(i)))){//if right is bigger
+                        //swap
+                        swap(data, i, right(i));
+                        max_heapify(right(i), length);
+                    }
+
+                } else if (left(i) < length) {//if left child
+                    if(less.test(data.get(i), data.get(left(i)))){//if right is bigger
+                        //swap
+                        swap(data, i, left(i));
+                        max_heapify(left(i), length);
+                    }
+                }
+            }
     }
 
     void build_max_heap() {
